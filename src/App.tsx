@@ -81,6 +81,24 @@ function App() {
     }
   };
 
+  const onBookAction = (id: string) => {
+    if (query.dateFrom && query.dateTo) {
+      const data = JSON.stringify({
+        vehicleId: id,
+        dateFrom: query.dateFrom,
+        dateTo: query.dateTo,
+      });
+      axios
+        .post(API_BASE_URL + "/booking", { data })
+        .then((response) => {
+          if (response.data) {
+            alert("Your car was booked");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
     <div className="App">
       <Menu />
@@ -90,7 +108,7 @@ function App() {
           {vehicles ? (
             vehicles?.map((vehicle, key) => (
               <Grid item key={key} xs={12} sm={6} md={4}>
-                <VehicleCard data={vehicle} />
+                <VehicleCard data={vehicle} onBookAction={onBookAction} />
               </Grid>
             ))
           ) : (
